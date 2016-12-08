@@ -114,16 +114,29 @@ int VRInterface::GetDeviceMatrix(int index, double pMatrix[3][4])
 {
   if (index < max_devices_)
   {
+
+    //info_(" [DEBUG] index = " + std::to_string(index));
+    //info_(" [DEBUG] bDeviceIsConnected = " + std::to_string(device_poses_[index].bDeviceIsConnected));
+    //info_(" [DEBUG] bPoseIsValid = " + std::to_string(device_poses_[index].bPoseIsValid));
+    //info_(" [DEBUG] eTrackingResult (200 is good) = " + std::to_string(device_poses_[index].eTrackingResult));
     if (device_poses_[index].bDeviceIsConnected && device_poses_[index].bPoseIsValid && device_poses_[index].eTrackingResult == vr::TrackingResult_Running_OK)
     {
       // +y is up
       // +x is to the right
       // -z is going away from you
+    
+      info_(" [DEBUG] getting device matrix for device " + std::to_string(index));
+
       for (int i=0; i<3; i++)
         for (int o=0; o<4; o++)
           pMatrix[i][o] = static_cast<double>(device_poses_[index].mDeviceToAbsoluteTracking.m[i][o]);
-
-      
+	  
+      //info_("pMatrix:");
+      //for (int i=0; i<3; i++)
+      //  for (int o=0; o<4; o++)
+      //    info_(std::to_string(pMatrix[i][o]) + " ");
+      //
+      //info_("pHMD_->GetTrackedDeviceClass(index) = " + std::to_string(pHMD_->GetTrackedDeviceClass(index)));
       return pHMD_->GetTrackedDeviceClass(index);
     }
   }

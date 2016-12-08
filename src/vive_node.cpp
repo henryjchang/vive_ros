@@ -52,8 +52,8 @@ VIVEnode::VIVEnode(int rate)
   nh_.getParam("/vive/world_yaw", world_yaw_);
   ROS_INFO(" [VIVE] World offset: [%2.3f , %2.3f, %2.3f] %2.3f", world_offset_[0], world_offset_[1], world_offset_[2], world_yaw_);
 
-  set_origin_server_ = nh_.advertiseService("/vive/set_origin", &VIVEnode::setOriginCB, this);
-
+  set_origin_server_ = nh_.advertiseService("/vive/set_origin", &VIVEnode::setOriginCB, this); 
+  ROS_INFO(" [DEBUG] origin is set");
   //~ twist1_pub_ = nh_.advertise<geometry_msgs::TwistStamped>("/vive/twist1", 10);
   //~ twist2_pub_ = nh_.advertise<geometry_msgs::TwistStamped>("/vive/twist2", 10);
 
@@ -130,6 +130,7 @@ void VIVEnode::Run()
 {
   double tf_matrix[3][4];
 
+  ROS_INFO(" [DEBUG] running Vive node");
   while (ros::ok())
   {
     // do stuff
@@ -139,8 +140,8 @@ void VIVEnode::Run()
     int lighthouse_count = 1;
     for (int i=0; i<5; i++)
     {
-      int dev_type = vr_.GetDeviceMatrix(i, tf_matrix);
-
+      int dev_type = vr_.GetDeviceMatrix(i, tf_matrix); 
+      //ROS_INFO(" [DEBUG] dev_type = %i", dev_type);
       // No device
       if (dev_type == 0) continue;
 
